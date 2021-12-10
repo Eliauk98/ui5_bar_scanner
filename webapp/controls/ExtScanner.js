@@ -67,22 +67,8 @@ sap.ui.define(
         this._oID = null; // input dialog
         this._oBarCodeDecoder = null;
         this._oQRCodeDecoder = null;
-
-        // set main model
-        this._oScanModel = new JSONModel({
-          type: this.getType(),
-          editButton: this.getEditMode(),
-          changeButton: true,
-          value: '',
-          videoDeviceId: null,
-          decoders: this.getDecoders(),
-          decoderKey: this.getDecoderKey(),
-          tryHarder: this.getTryHarder(),
-          settings: this.getSettings(),
-        });
         // i18n from owner or library if possible
         this.setModel(sap.ui.core.Component.getOwnerComponentFor(this).getModel('i18n'), 'i18n');
-        this.setModel(this._oScanModel, 'scanModel');
         this.setModel(new JSONModel(Device), 'device');
         // attach
         sap.ui.Device.orientation.attachHandler(this.adaptVideoSourceSize.bind(this));
@@ -144,6 +130,20 @@ sap.ui.define(
        * @public
        */
       open: function() {
+        // set main model
+        this._oScanModel = new JSONModel({
+          type: this.getType(),
+          editButton: this.getEditMode(),
+          changeButton: true,
+          value: '',
+          videoDeviceId: null,
+          decoders: this.getDecoders(),
+          decoderKey: this.getDecoderKey(),
+          tryHarder: this.getTryHarder(),
+          settings: this.getSettings(),
+        });
+        this.setModel(this._oScanModel, 'scanModel');//20211210   moved from init  by HuSenqi（to repair the attribute value received failed）
+        
         this.onShowDialog();
       },
 
